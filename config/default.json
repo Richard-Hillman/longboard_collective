@@ -1,3 +1,4 @@
 {
-    "mongoURI": "mongodb+srv://AdminHillman:Ued6qYjTwV7nlMyS@cluster0.nttup.mongodb.net/Longboard_Collective?retryWrites=true&w=majority"
+    "mongoURI": "mongodb+srv://AdminHillman:Ued6qYjTwV7nlMyS@cluster0.nttup.mongodb.net/Longboard_Collective?retryWrites=true&w=majority",
+    "jwtSecret": "munch"
 }
