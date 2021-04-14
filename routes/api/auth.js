@@ -7,9 +7,13 @@ const bcrypt = require('bcryptjs');
 const { check, validationResult } = require('express-validator');
 
 const User = require('../../models/User');
+
+// --------------------------------------------------------------------------------------
+
 // @route GET api/auth
 // @desc Test route
 // @access Public
+
 router.get('/', auth, async(req, res) => {
   try { 
     const user = await User.findById(req.user.id).select('-password');
@@ -21,20 +25,18 @@ router.get('/', auth, async(req, res) => {
     
 });
 
+// Authenticate user and get token --------------------------------------------------------------------------------------
+
 // @route GET api/post
-// @description Register user 
+// @description Authenticate user and get token
 // @access Public
+
 router.post(
   '/',
   [
     check('email', 'Please enter a valid email').isEmail(),
-    check(
-      'password',
-      'Please Required'
-    ).exists()
+    check('password', 'Password is Required').exists()
   ], 
-
-  // -----------------------------------------------------------------
 
   async(req, res) => {
     const errors = validationResult(req);
@@ -45,25 +47,23 @@ router.post(
     const { email, password } = req.body;
   
     try {
-      // see if user exists-----------------------------------------
+      // see if user exists ----------
       const user = await User.findOne({ email });
   
       if(!user) {
-        res
+        return res
           .status(400)
           .json({ errors: [{ msg: 'Invalid Credentials' }] });
       }
   
-      // see if password is matching-------------------------------------
-
+      // see if password is matching ----------
       const isMatch = await bcrypt.compare(password, user.password);
-
       if(!isMatch)
         res
           .status(400)
           .json({ errors: [{ msg: 'Invalid Credentials' }] });
     
-      // return jsonwebtoken ----------------------------------------
+      // return jsonwebtoken ----------
       const payload = {
         user: {
           id: user.id
@@ -79,7 +79,7 @@ router.post(
           res.json({ token });
         }
       );
-    } catch(err) {
+    } catch (err) {
       console.error(err.message);
       res.status(500).send('Server error');
     } 
