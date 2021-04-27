@@ -178,7 +178,7 @@ async (req, res) => {
     }
 );
 
-//  Gets Users profile by ID--------------------------------------------------------------------------------------
+//  PUTS a user experience in profile experience array--------------------------------------------------------------------------------------
 
     // @route PUT api/profile/experience
     // @desc Add profile experience 
@@ -235,6 +235,35 @@ async (req, res) => {
                 console.error(err.message);
                 res.status(500).send('Server Error');
             }
+    }
+);
+
+//  DELETE User Experience --------------------------------------------------------------------------------------
+
+    // @route DELETE api/profile/experience
+    // @desc Deletes profile experience 
+    // @access Private
+
+    router.delete('/experience/:exp_id', auth, async (req, res) => {
+        try {
+            // get profile from current user
+            const profile = await Profile.findOne({ user: req.user.id });
+            
+            // get remove index 
+            const removeIndex = profile.experience.map(item => item.id).indexOf
+            (req.params.exp_id);
+
+            // splicing the experience out and removing it
+            profile.experience.splice(removeIndex, 1);
+
+            // saving it
+            await profile.save();
+
+            res.json(profile);
+        } catch (err) {
+            console.error(err.message);
+            res.status(500).send('Server Error');
+        }
     }
 );
 
