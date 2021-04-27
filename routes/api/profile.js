@@ -185,17 +185,17 @@ async (req, res) => {
     // @access Private
 
     router.put('/experience',
-    [
+    // [
         auth,
-        [             
-            check('title, Title is required')
-                .not()
-                .isEmpty(),
-            check('company, Company is required')
-                .not()
-                .isEmpty()
-        ]
-    ],
+        // [             
+        //     check('title, Title is required')
+        //         .not()
+        //         .isEmpty(),
+        //     check('company, Company is required')
+        //         .not()
+        //         .isEmpty()
+        // ]
+    // ],
         async (req, res) => {
             const errors = validationResult(req);
             if(!errors.isEmpty()) {
