@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const auth = require('../../middleware/auth');
-const { check, validationResult } = require('express-validator/check')
+const { check, validationResult } = require('express-validator')
 
 const Profile = require('../../models/Profile');
 const user = require('../../models/User');
@@ -286,10 +286,10 @@ async (req, res) => {
         // ]
     // ],
         async (req, res) => {
-            // const errors = validationResult(req);
-            // if(!errors.isEmpty()) {
-            //     return res.status(400).json({ errors: errors.array() });
-            // }
+            const errors = validationResult(req);
+            if(!errors.isEmpty()) {
+                return res.status(400).json({ errors: errors.array() });
+            }
 
             const {
                school,
